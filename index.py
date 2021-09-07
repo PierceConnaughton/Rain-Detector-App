@@ -41,11 +41,85 @@ y = df[['RainTomorrow']]
 # X_new = selector.transform(X)
 # print(X.columns[selector.get_support(indices=True)])
 
-#The important features are put in a data frame
+# The important features are put in a data frame
 df = df[['Humidity3pm','Rainfall','RainToday','RainTomorrow']]
  
-#To simplify computations we will use only one feature (Humidity3pm) to build the model
+# To simplify computations we will use only one feature (Humidity3pm) to build the model
  
 X = df[['Humidity3pm']]
 y = df[['RainTomorrow']]
+
+# We’ll be building classification models, by using the following algorithms:
+
+# 1.Logistic Regression
+# 2.Random Forest
+# 3.Decision Tree
+
+# Logistic Regression
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import time
+ 
+# # Calculating the accuracy and the time taken by the classifier
+# t0=time.time()
+
+# # Data Splicing
+# X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.25)
+# clf_logreg = LogisticRegression(random_state=0)
+
+# # Building the model using the training data set
+# clf_logreg.fit(X_train,y_train)
+ 
+# # Evaluating the model using testing data set
+# y_pred = clf_logreg.predict(X_test)
+# score = accuracy_score(y_test,y_pred)
+ 
+# # Printing the accuracy and the time taken by the classifier
+# print('Accuracy using Logistic Regression:',score)
+# print('Time taken using Logistic Regression:' , time.time()-t0)
+
+
+# Random Forest Classifier
+# from sklearn.ensemble import RandomForestClassifier
+# from sklearn.model_selection import train_test_split
+ 
+# # Calculating the accuracy and the time taken by the classifier
+# t0=time.time()
+
+# # Data Splicing
+# X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.25)
+# clf_rf = RandomForestClassifier(n_estimators=100, max_depth=4,random_state=0)
+
+# # Building the model using the training data set
+# clf_rf.fit(X_train,y_train)
+ 
+# # Evaluating the model using testing data set
+# y_pred = clf_rf.predict(X_test)
+# score = accuracy_score(y_test,y_pred)
+ 
+# # Printing the accuracy and the time taken by the classifier
+# print('Accuracy using Random Forest Classifier:',score)
+# print('Time taken using Random Forest Classifier:' , time.time()-t0)
+
+#Decision Tree Classifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+ 
+#Calculating the accuracy and the time taken by the classifier
+t0=time.time()
+#Data Splicing
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.25)
+clf_dt = DecisionTreeClassifier(random_state=0)
+#Building the model using the training data set
+clf_dt.fit(X_train,y_train)
+ 
+#Evaluating the model using testing data set
+y_pred = clf_dt.predict(X_test)
+score = accuracy_score(y_test,y_pred)
+ 
+#Printing the accuracy and the time taken by the classifier
+print('Accuracy using Decision Tree Classifier:',score)
+print('Time taken using Decision Tree Classifier:' , time.time()-t0)
+ 
  
