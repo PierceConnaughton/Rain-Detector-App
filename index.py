@@ -8,15 +8,12 @@ import pandas as pd
 #Load the data set
 df = pd.read_csv('E:/College/Semester 7/AI/Rain Detector App/weatherAUS.csv')
 
-# Checking for null values
-print(df.count().sort_values())
-
 # When we checked the null values in our data we could see that the first 4 values had over 40% null values so we removed them from our database.  
 # We will also remove date and location as they are not necessary
 # We will also remove the ‘RISK_MM’ variable because we want to predict ‘RainTomorrow’ and RISK_MM (amount of rain the next day) can leak some info to our model. 
 
-# df = df.drop(columns=['Sunshine','Evaporation','Cloud3pm','Cloud9am','Location','RISK_MM','Date'],axis=1)
-# print(df.shape)
+df = df.drop(columns=['Sunshine','Evaporation','Cloud3pm','Cloud9am','Location','Date'],axis=1)
+print(df.shape)
 
 # Removing all null values from data
 df = df.dropna(how='any')
@@ -35,9 +32,20 @@ print(df.shape)
 df['RainToday'].replace({'No': 0, 'Yes': 1},inplace = True)
 df['RainTomorrow'].replace({'No': 0, 'Yes': 1},inplace = True)
 
-# Next we normalise our data in order to avoid being baised
-from sklearn import preprocessing
-scaler = preprocessing.MinMaxScaler()
-scaler.fit(df)
-df = pd.DataFrame(scaler.transform(df), index=df.index, columns=df.columns)
-df.iloc[4:10]
+#Using SelectKBest to get the top features!
+# from sklearn.feature_selection import SelectKBest, chi2
+X = df.loc[:,df.columns!='RainTomorrow']
+y = df[['RainTomorrow']]
+# selector = SelectKBest(chi2, k=3)
+# selector.fit(X, y)
+# X_new = selector.transform(X)
+# print(X.columns[selector.get_support(indices=True)])
+
+#The important features are put in a data frame
+df = df[['Humidity3pm','Rainfall','RainToday','RainTomorrow']]
+ 
+#To simplify computations we will use only one feature (Humidity3pm) to build the model
+ 
+X = df[['Humidity3pm']]
+y = df[['RainTomorrow']]
+ 
